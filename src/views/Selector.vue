@@ -21,12 +21,12 @@
             <div>
               <select v-model="timeSlot.startTime">
                 <option value="" disabled selected>開始時間</option>
-                <option v-for="time in availableTimes" :value="time" :disabled="slotIndex > 0 && time <= weekDays[selectedDay].timeSlots[slotIndex - 1].endTime">{{ time }}</option>
+                <option v-for="time in availableTimes" :value="time" :disabled="slotIndex > 0 && (time < weekDays[selectedDay].timeSlots[slotIndex - 1].endTime || time === timeSlot.endTime)">{{ time }}</option>
               </select>
               <span>-</span>
               <select v-model="timeSlot.endTime" :disabled="!timeSlot.startTime">
                 <option value="" disabled selected>結束時間</option>
-                <option v-for="time in availableTimes" :value="time" :disabled="slotIndex > 0 && (time >= weekDays[selectedDay].timeSlots[slotIndex - 1].startTime || time <= timeSlot.startTime)">{{ time }}</option>
+                <option v-for="time in availableTimes" :value="time" :disabled="(slotIndex === 0 && time <= timeSlot.startTime) || (slotIndex > 0 && (time <= weekDays[selectedDay].timeSlots[slotIndex - 1].startTime || time <= timeSlot.startTime))">{{ time }}</option>
               </select>
               <button @click="removeTimeSlot(selectedDay, slotIndex)">刪除</button>
             </div>
